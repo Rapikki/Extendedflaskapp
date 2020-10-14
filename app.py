@@ -19,13 +19,13 @@ from models import Book
 def health():
     try:
         book=Book.query.all
-        return (str(200))
+        return (str(200), 200)
     except Exception as e:
-	    return(str(e))
+	    return(str(e), 500)
 
 @app.route("/hello")
 def hello():
-    return "Hello World!"
+    return ("Hello World!", 200)
 
 @app.route("/add")
 def add_book():
@@ -42,7 +42,7 @@ def add_book():
         db.session.commit()
         return ("Book added. book id={}".format(book.id), 201)
     except Exception as e:
-	    return(str(e))
+	    return(str(e), 500)
 
 @app.route("/list")
 def get_all():
@@ -50,16 +50,16 @@ def get_all():
         books=Book.query.all()
         return  jsonify([e.serialize() for e in books])
     except Exception as e:
-	    return(str(e))
-    return render_template("index.html", title="List of Book")
+	    return(str(e), 500)
+    return render_template("index.html", title="List of Book"), 200
 
 @app.route("/get/<id_>")
 def get_by_id(id_):
     try:
         book=Book.query.filter_by(id=id_).first()
-        return jsonify(book.serialize())
+        return jsonify(book.serialize(), 200)
     except Exception as e:
-	    return(str(e))
+	    return(str(e), 500)
 
 if __name__ == '__main__':
     app.run()
