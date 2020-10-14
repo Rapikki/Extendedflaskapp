@@ -15,6 +15,14 @@ db = SQLAlchemy(app)
 
 from models import Book
 
+@app.route("/health")
+def health():
+    try:
+        book=Book.query.all
+        return (str(200))
+    except Exception as e:
+	    return(str(e))
+
 @app.route("/hello")
 def hello():
     return "Hello World!"
@@ -32,7 +40,7 @@ def add_book():
         )
         db.session.add(book)
         db.session.commit()
-        return "Book added. book id={}".format(book.id)
+        return ("Book added. book id={}".format(book.id), 201)
     except Exception as e:
 	    return(str(e))
 
