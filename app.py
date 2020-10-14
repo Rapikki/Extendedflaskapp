@@ -5,7 +5,10 @@ from flask import Response
 import boto3
 
 
-ssm = boto3.client('ssm', region_name='eu-central-1')
+ssm = boto3.client('ssm', 
+        region_name='eu-central-1',
+        aws_access_key_id="XXX",
+        aws_secret_access_key="YYY")
 db_user = ssm.get_parameter(Name='/user_DB')
 db_password = ssm.get_parameter(Name='/Pass_DB', WithDecryption=True)
 
