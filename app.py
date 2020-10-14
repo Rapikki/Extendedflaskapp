@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask import Response
 import boto3
-
+import json
 
 ssm = boto3.client('ssm', 
         region_name='eu-central-1',
@@ -11,11 +11,10 @@ ssm = boto3.client('ssm',
         aws_secret_access_key="YYY")
 db_user = ssm.get_parameter(Name='/user_DB')
 db_password = ssm.get_parameter(Name='/Pass_DB', WithDecryption=True)
-
+db_host = 'postgredb.c7o7zikjorxv.eu-central-1.rds.amazonaws.com'
 app = Flask(__name__)
 
-#SQLALCHEMY_DATABASE_URI="postgredb.c7o7zikjorxv.eu-central-1.rds.amazonaws.com"
-SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://db_user:db_password@192.168.10.1:5432/postgredb"
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql+psycopg2://{}:{}@{}/books_store".format(db_user, db_password, db_host)
 
 app.config.from_object('config.DevelopmentConfig')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
