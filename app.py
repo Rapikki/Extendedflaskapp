@@ -1,16 +1,22 @@
 import os
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import env_file
 from flask import Response
+import boto3
 
 
+ssm = boto3.client('ssm', region_name='eu-central-1')
+db_user = ssm.get_parameter(Name='/user_DB')
+db_password = ssm.get_parameter(Name='/Pass_DB', WithDecryption=True)
 
-env_file.load('.env')
 app = Flask(__name__)
 
-app.config.from_object(os.environ['APP_SETTINGS'])
+#SQLALCHEMY_DATABASE_URI="postgredb.c7o7zikjorxv.eu-central-1.rds.amazonaws.com"
+SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://db_user:db_password@192.168.10.1:5432/postgredb"
+
+app.config.from_object('config.DevelopmentConfig')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 from models import Book

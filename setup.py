@@ -6,7 +6,8 @@ requires = (
     "flask_sqlalchemy>=2.4.1",
     "Jinja2>=2.10.1",
     "flask_script>=2.0.1",
-    "flask_migrate>=2.5.1"
+    "flask_migrate>=2.5.1",
+    "boto3>=1.15.1"
 )
 
 setup(
