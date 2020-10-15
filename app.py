@@ -6,15 +6,13 @@ import boto3
 import json
 
 ssm = boto3.client('ssm', 
-        region_name='eu-central-1',
-        aws_access_key_id="XXX",
-        aws_secret_access_key="YYY")
+        region_name='eu-central-1')
 db_user = ssm.get_parameter(Name='/user_DB')
 db_password = ssm.get_parameter(Name='/Pass_DB', WithDecryption=True)
 db_host = 'postgredb.c7o7zikjorxv.eu-central-1.rds.amazonaws.com'
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']="postgresql+psycopg2://{}:{}@{}/books_store".format(db_user, db_password, db_host)
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql+psycopg2://{}:{}@{}/books_store".format(db_user['Parameter']['Value'], db_password['Parameter']['Value'], db_host)
 
 app.config.from_object('config.DevelopmentConfig')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
