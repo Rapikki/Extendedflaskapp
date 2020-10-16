@@ -6,7 +6,9 @@ import boto3
 import json
 
 ssm = boto3.client('ssm', 
-        region_name='eu-central-1')
+        region_name='eu-central-1',
+        endpoint_url='https://vpce-02c8ad0aa180bd28c-v38kkyx0.ssm.eu-central-1.vpce.amazonaws.com'
+)
 db_user = ssm.get_parameter(Name='/user_DB')
 db_password = ssm.get_parameter(Name='/Pass_DB', WithDecryption=True)
 db_host = 'postgredb.c7o7zikjorxv.eu-central-1.rds.amazonaws.com'
