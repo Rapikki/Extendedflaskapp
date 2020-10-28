@@ -7,7 +7,8 @@ requires = (
     "Jinja2>=2.10.1",
     "flask_script>=2.0.1",
     "flask_migrate>=2.5.1",
-    "boto3>=1.15.1"
+    "boto3>=1.15.1",
+    "psydopg2"
 )
 
 setup(
